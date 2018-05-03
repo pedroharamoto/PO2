@@ -1,0 +1,146 @@
+<!-- CORPO DO SITE -->
+<script type="text/javascript">
+  var header = $('#cabecalho');
+
+  header.empty();
+  header.append('<h1>Busca Dicotomica</h1>');
+</script>
+
+<style type="text/css">
+  #plot {
+  min-width: 310px;
+  max-width: 800px;
+  height: 400px;
+  margin: 0 auto
+  }
+</style>
+<input type="hidden" id="funcao_antiga" value=""></input>
+<input type="hidden" id="a_antigo" value=""></input>
+<input type="hidden" id="b_antigo" value=""></input>
+<input type="hidden" id="delta_antigo" value=""></input>
+<div class="row border-bot">
+  <div class="col-md-12">
+      <p></p>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-5">
+
+    <div class="row">
+      <div class="col-md-8">
+
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">f(x)=</span>
+          <input id="fx" value="x^2+2x" type="text" class="form-control" placeholder="Função" aria-describedby="basic-addon1" autofocus>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">ε:</span>
+          <input id="epsilon" value="0.1" type="text" class="form-control" placeholder="Precisão" aria-describedby="basic-addon1">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <p></p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">a:</span>
+          <input id="a" value="-3" type="text" class="form-control" placeholder="Intervalo" aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">b:</span>
+          <input id="b" value="5" type="text" class="form-control" placeholder="Intervalo" aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Δ:</span>
+          <input id="delta"value="0.01" type="text" class="form-control" placeholder="Passo" aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <p></p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+      </div>
+      <div class="col-md-6">
+        <div class="alinhamento">
+          <input class="btn btn-success" id="btn_inter" onclick="envia(1)" type="button" value="Encontrar"></input>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p></p>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <a role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          + Info
+        </a>
+        <div class="collapse" id="collapseExample">
+          <div class="well">
+            <p class="recuo">
+              É realizado o <b>Método da Busca Dicotomica</b> - entre [a,b], com um passo Δ (delta) fornecido e uma precisão ε (epsilon) - para encontrar o mínimo local da função f(x).
+              <br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-1">
+    <p></p>
+  </div>
+
+  <div class="col-md-6">
+      <div class="row">
+          <div id="retorno">
+
+          </div>
+      </div>
+  </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <p></p>
+    </div>
+    <div class="col-md-1">
+        <p></p>
+    </div>
+    <div class="col-md-6">
+        <div id="plot">
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+  $('#fx').focus();
+
+</script>
