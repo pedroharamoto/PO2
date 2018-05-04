@@ -128,12 +128,22 @@ function buscaDicotomica(fx,a,b,delta,epsilon,retorno,passos){
     texto_retorno +='<td>'+q.toFixed(4)+'</td>';
     texto_retorno += '<td>'+fq.toFixed(4)+'</td>';
     texto_retorno += '</tr>';
-    texto_retorno += '</tbody></table>';
+    //texto_retorno += '</tbody></table>';
 
     xOtimo = (a+b)/2;
     fxOtimo = f.eval({x:xOtimo});
 
-    retorno.append("<p><b>xOtimo:</b> "+xOtimo.toFixed(4)+"</p><p><b>F(xOtimo):</b> "+fxOtimo.toFixed(4)+'</p><br>');
+    texto_retorno += ('<tr bgcolor="#3CB371"><td align="center" colspan="8"><b>Resposta<b></td></tr>');
+
+    if(i%2 === 0)
+        texto_retorno += '<tr bgcolor="#DCDCDC">';
+    else
+        texto_retorno += '<tr>';
+
+    texto_retorno += '<td colspan="8" align="center"><p><b>xOtimo = </b>'+xOtimo.toFixed(4)+'</p><p><b>f(xOtimo) = </b>'+ (parseFloat(f.eval({x:xOtimo}))).toFixed(4) +'</p></td>';
+    texto_retorno += '</tr>';
+    texto_retorno += '</tbody></table>';
+
     retorno.append(texto_retorno);
 
 }
