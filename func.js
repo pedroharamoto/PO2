@@ -51,6 +51,19 @@ function envia(ordem){
 
         buscaAurea(fx,a,b,epsilon,retorno);
     }
+
+    if(ordem == 4){ //busca fibonacci
+
+        var fx = $("#fx").val();
+        var a = $("#a").val();
+        var b = $("#b").val();
+        var epsilon = $("#epsilon").val();
+        var retorno = $("#retorno");
+
+        retorno.empty();
+
+        buscaFibonacci(fx,a,b,epsilon,retorno);
+    }
 }
 
 function buscaDicotomica(fx,a,b,delta,epsilon,retorno,passos){
@@ -360,5 +373,29 @@ function buscaAurea(fx,a,b,epsilon,retorno){
     passo += '</tbody></table>';
 
     retorno.append(passo);
+
+}
+
+function fibonacci(n_fib){
+    //n_fib é o número de elementos, essa função irá retornar um vetor com a sequencia de fibonacci de n_fib elementos
+    var seq_fib = []; //vetor com a sequencia
+
+    seq_fib.push(1);
+    seq_fib.push(1);
+
+    // os 2 primeiros elementos são 1,1
+    var i = 2; //i = 2, pois ja temos 2 elementos no vetor
+    //
+    while(seq_fib.length < n_fib){
+        seq_fib.push(seq_fib[i-1]+seq_fib[i-2]);
+        i++;
+    }
+
+    return seq_fib;
+}
+
+function buscaFibonacci(fx,a,b,epsilon,retorno){
+    var fib = fibonacci(5);
+
 
 }
