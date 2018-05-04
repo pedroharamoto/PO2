@@ -409,10 +409,17 @@ function buscaFibonacci(fx,a,b,epsilon,retorno){
     var sub;
     var xOtimo;
     var fOtimo;
+    var aPrint;
+    var bPrint;
+    var flagP = 0;
+    var flagQ = 0;
+
     var passo = '<table class="table"><thead><tr><th>#</th><th>a</th><th>b</th><th>p</th><th>F(p)</th><th>q</th><th>F(q)</th></tr></thead>';
     passo += '<tbody>';
 
     for(i = 0; i<(tam_fib-1); i++){
+        aPrint = parseFloat(a);
+        bPrint = parseFloat(b);
         //retorno.append("<br><br>i: "+i);
         sub = (b - a);
 
@@ -425,25 +432,52 @@ function buscaFibonacci(fx,a,b,epsilon,retorno){
         //retorno.append("<br>q: "+q.toFixed(4));
         fq = parseFloat(f.eval({x:q}));
         //retorno.append("<br>fq: "+fq.toFixed(4));
+
+        if(fq < fp){
+            a = p;
+            flagP = 1;
+            flagQ = 0;
+        }
+        else{
+            b = q;
+            flagP = 0;
+            flagQ = 1;
+        }
+
+
         passo += '<tr>';
         passo += '<td>'+i+'</td>';
-        passo += '<td>'+a+'</td>';
-        passo += '<td>'+b.toFixed(4)+'</td>';
+        passo += '<td>'+aPrint.toFixed(4)+'</td>';
+        passo += '<td>'+bPrint.toFixed(4)+'</td>';
         passo += '<td>'+p.toFixed(4)+'</td>';
-        passo += '<td>'+fp.toFixed(4)+'</td>';
-        passo += '<td>'+q.toFixed(4)+'</td>';
-        passo += '<td>'+fp.toFixed(4)+'</td>';
-        passo += '</tr>';
-        if (i < tam_fib - 2){
-            if(fq < fp){
-                a = p;
-            }
-            else{
-                b = q;
-            }
+        if(flagP){
+            passo +='<td bgcolor="#8FBC8F">'+fp.toFixed(4)+'</td>';
         }
+        else{
+            passo +='<td>'+fp.toFixed(4)+'</td>';
+        }
+        passo += '<td>'+q.toFixed(4)+'</td>';
+        if(flagQ){
+            passo +='<td bgcolor="#8FBC8F">'+fq.toFixed(4)+'</td>';
+        }
+        else{
+            passo +='<td>'+fq.toFixed(4)+'</td>';
+        }
+        passo += '</tr>';
     }
-    var xOtimo = (a+b)/2;
+
+    xOtimo = (a+b)/2;
+
+    passo += ('<tr bgcolor="#3CB371"><td align="center" colspan="8"><b>Resposta<b></td></tr>');
+
+    if(i%2 === 0)
+        passo += '<tr bgcolor="#DCDCDC">';
+    else
+        passo += '<tr>';
+
+    passo += '<td colspan="8" align="center"><p><b>xOtimo = </b>'+xOtimo.toFixed(4)+'</p><p><b>f(xOtimo) = </b>'+ (parseFloat(f.eval({x:xOtimo}))).toFixed(4) +'</p></td>';
+    passo += '</tr>';
+    passo += '</tbody></table>';
 
     retorno.append(passo);
 
