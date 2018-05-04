@@ -377,25 +377,74 @@ function buscaAurea(fx,a,b,epsilon,retorno){
 }
 
 function fibonacci(n_fib){
-    //n_fib é o número de elementos, essa função irá retornar um vetor com a sequencia de fibonacci de n_fib elementos
+    //n_fib é o valor do maior elemento da sequencia
+    //essa função irá retornar um vetor com a sequencia de fibonacci
     var seq_fib = []; //vetor com a sequencia
 
     seq_fib.push(1);
     seq_fib.push(1);
 
     // os 2 primeiros elementos são 1,1
-    var i = 2; //i = 2, pois ja temos 2 elementos no vetor
+    var i = 1; //i = 1, pois ja temos 2 elementos no vetor
     //
-    while(seq_fib.length < n_fib){
-        seq_fib.push(seq_fib[i-1]+seq_fib[i-2]);
+    while(seq_fib[i] < n_fib){
         i++;
+        seq_fib.push(seq_fib[i-2]+seq_fib[i-1]);
     }
 
     return seq_fib;
 }
 
 function buscaFibonacci(fx,a,b,epsilon,retorno){
-    var fib = fibonacci(5);
 
+    var fib = parseInt((b-a)/epsilon);
+    var seq_fib = fibonacci(fib);
+    var tam_fib = seq_fib.length-1;
+
+    var f = math.compile(fx);
+    var p;
+    var fp;
+    var q;
+    var fq;
+    var sub;
+    var xOtimo;
+    var fOtimo;
+    var passo = '<table class="table"><thead><tr><th>#</th><th>a</th><th>b</th><th>p</th><th>F(p)</th><th>q</th><th>F(q)</th></tr></thead>';
+    passo += '<tbody>';
+
+    for(i = 0; i<(tam_fib-1); i++){
+        //retorno.append("<br><br>i: "+i);
+        sub = (b - a);
+
+        p = parseFloat(parseFloat(a) + parseFloat(((seq_fib[tam_fib-i-2])/seq_fib[tam_fib-i]) * sub));
+        //retorno.append("<br>P: "+p.toFixed(4));
+        fp = parseFloat(f.eval({x:p}));
+        //retorno.append("<br>fp: "+fp.toFixed(4));
+
+        q = parseFloat(parseFloat(a) + parseFloat(((seq_fib[tam_fib-i-1])/seq_fib[tam_fib-i]) * sub));
+        //retorno.append("<br>q: "+q.toFixed(4));
+        fq = parseFloat(f.eval({x:q}));
+        //retorno.append("<br>fq: "+fq.toFixed(4));
+        passo += '<tr>';
+        passo += '<td>'+i+'</td>';
+        passo += '<td>'+a+'</td>';
+        passo += '<td>'+b.toFixed(4)+'</td>';
+        passo += '<td>'+p.toFixed(4)+'</td>';
+        passo += '<td>'+fp.toFixed(4)+'</td>';
+        passo += '<td>'+q.toFixed(4)+'</td>';
+        passo += '<td>'+fp.toFixed(4)+'</td>';
+        passo += '</tr>';
+        if (i < tam_fib - 2){
+            if(fq < fp){
+                a = p;
+            }
+            else{
+                b = q;
+            }
+        }
+    }
+    var xOtimo = (a+b)/2;
+
+    retorno.append(passo);
 
 }
