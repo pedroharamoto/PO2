@@ -24,7 +24,7 @@ function envia(ordem){
         buscaDicotomica(fx,a,b,delta,epsilon, retorno,passos);
     }
 
-    if(ordem == 2){//busca uniforme
+    else if(ordem == 2){//busca uniforme
 
         var fx = $("#fx").val();
         var a = $("#a").val();
@@ -39,7 +39,7 @@ function envia(ordem){
         BuscaUniforme(fx,a,b,delta,retorno);
     }
 
-    if(ordem == 3){ //busca seção aurea
+    else if(ordem == 3){ //busca seção aurea
 
         var fx = $("#fx").val();
         var a = $("#a").val();
@@ -52,7 +52,7 @@ function envia(ordem){
         buscaAurea(fx,a,b,epsilon,retorno);
     }
 
-    if(ordem == 4){ //busca fibonacci
+    else if(ordem == 4){ //busca fibonacci
 
         var fx = $("#fx").val();
         var a = $("#a").val();
@@ -64,6 +64,64 @@ function envia(ordem){
 
         buscaFibonacci(fx,a,b,epsilon,retorno);
     }
+
+    else if(ordem == 5){ //busca fibonacci
+
+        var fx = $("#fx").val();
+        var a = $("#a").val();
+        var b = $("#b").val();
+        var epsilon = $("#epsilon").val();
+        var retorno = $("#retorno");
+
+        retorno.empty();
+
+        biseccao(fx,a,b,epsilon,retorno);
+    }
+
+}
+
+function biseccao(fx,a,b,epsilon,retorno){
+    //
+    var f = math.compile(fx);
+    a = parseFloat(a);
+    b = parseFloat(b);
+    epsilon = parseFloat(epsilon);
+    //
+    var p;
+    var z = (math.log10((b-a)/epsilon));
+    var y = (math.log10(2));
+    var k = parseInt(z/y)+1;
+    //
+    var fd = math.derivative(fx,'x');
+    var fp;
+    //
+    //
+    var resposta = "";
+    //
+    var texto_retorno = '<table class="table"><thead><tr><th>#</th><th>p</th><th>F(p)</th><th>q</th><th>F(q)</th></tr></thead>';
+    texto_retorno += '<tbody>';
+    //
+    for(var i = 0;i<k;i++){
+        p = (a+b)/2;
+        //
+        fp = fd.eval({x:p}); //derivada aplica ao ponto p
+        //
+        if ( ((b-a) < epsilon) && (abs(p) < epsilon)){
+            break;
+        }
+        if(fp > epsilon){
+            b = p;
+        }
+        else{
+            a = p;
+        }
+    }
+    //
+    resposta += "<b>x = " + p;
+    resposta += "<br><b>f(x) = "+f.eval({x:p});
+    //
+    retorno.append(resposta);
+
 }
 
 function buscaDicotomica(fx,a,b,delta,epsilon,retorno,passos){
