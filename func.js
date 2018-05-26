@@ -98,13 +98,23 @@ function biseccao(fx,a,b,epsilon,retorno){
     //
     var resposta = "";
     //
-    var texto_retorno = '<table class="table"><thead><tr><th>#</th><th>p</th><th>F(p)</th><th>q</th><th>F(q)</th></tr></thead>';
+    var texto_retorno = '<table class="table"><thead><tr><th>#</th><th>p</th><th>F(p)</th></tr></thead>';
     texto_retorno += '<tbody>';
     //
     for(var i = 0;i<k;i++){
         p = (a+b)/2;
         //
         fp = fd.eval({x:p}); //derivada aplica ao ponto p
+        //
+        if(i%2 === 0)
+            texto_retorno += '<tr bgcolor="#DCDCDC">';
+        else
+            texto_retorno += '<tr>';
+
+        texto_retorno += '<td>'+(i+1)+'</td>';
+        texto_retorno +='<td>'+p.toFixed(4)+'</td>';
+        texto_retorno +='<td>'+fp.toFixed(4)+'</td>';
+        texto_retorno += '</tr>';
         //
         if ( ((b-a) < epsilon) && (abs(p) < epsilon)){
             break;
@@ -120,8 +130,20 @@ function biseccao(fx,a,b,epsilon,retorno){
     resposta += "<b>x = " + p;
     resposta += "<br><b>f(x) = "+f.eval({x:p});
     //
-    retorno.append(resposta);
+    texto_retorno += ('<tr bgcolor="#3CB371"><td align="center" colspan="8"><b>Resposta<b></td></tr>');
 
+    if(i%2 === 0)
+        texto_retorno += '<tr bgcolor="#DCDCDC">';
+    else
+        texto_retorno += '<tr>';
+
+    texto_retorno += '<td colspan="8" align="center">'+resposta+'</td>';
+    texto_retorno += '</tr>';
+    //
+    texto_retorno += '</tbody></table>';
+    //
+    //
+    retorno.append(texto_retorno);
 }
 
 function buscaDicotomica(fx,a,b,delta,epsilon,retorno,passos){
@@ -513,7 +535,11 @@ function buscaFibonacci(fx,a,b,epsilon,retorno){
         }
 
 
-        passo += '<tr>';
+        if(i%2 === 0)
+            passo += '<tr bgcolor="#DCDCDC">';
+        else
+            passo += '<tr>';
+
         passo += '<td>'+i+'</td>';
         passo += '<td>'+aPrint.toFixed(4)+'</td>';
         passo += '<td>'+bPrint.toFixed(4)+'</td>';
