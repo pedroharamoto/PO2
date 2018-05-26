@@ -65,7 +65,7 @@ function envia(ordem){
         buscaFibonacci(fx,a,b,epsilon,retorno);
     }
 
-    else if(ordem == 5){ //busca fibonacci
+    else if(ordem == 5){ //metodo da biseccao
 
         var fx = $("#fx").val();
         var a = $("#a").val();
@@ -78,6 +78,109 @@ function envia(ordem){
         biseccao(fx,a,b,epsilon,retorno);
     }
 
+    else if(ordem == 6){ //metodo de newton
+
+        var fx = $("#fx").val();
+        var a = $("#a").val();
+        var b = $("#b").val();
+        var epsilon = $("#epsilon").val();
+        var xinicial = $("#xinicial").val()
+        var retorno = $("#retorno");
+
+        retorno.empty();
+
+        newton(fx,a,b,epsilon,xinicial,retorno);
+    }
+
+}
+
+function newton(fx,a,b,epsilon,xinicial,retorno){
+    //
+    a = parseFloat(a);
+    b = parseFloat(b);
+    epsilon = parseFloat(epsilon);
+    var resposta = "";
+    var k = 0;
+    var f = math.compile(fx);
+    var pri_fx = math.derivative(fx,'x',{simplify: false}); //é preciso setar simplify:false para poder fazer a proxima derivada
+    var seg_fx = math.derivative(pri_fx,'x');
+    //
+    //calcula o valor da primeira e segunda derivada, no ponto xinicial
+    //
+    var p = pri_fx.eval({x:xinicial});
+    var s = seg_fx.eval({x:xinicial});
+    //
+    //se p ou s forem muito proximas de zero, retorno xinicial
+    //
+    if( (math.abs(p) <= epsilon) || (math.abs(s) <= epsilon) ){
+        resposta += "<b>x = "+xinicial;
+        resposta += "<br>f(x) = " + f.eval({x:xinicial});
+    }
+    //
+    //determinando o novo ponto xp
+    //
+    var xp = (xinicial - (p/s));
+    //
+    //codição de parada do método:
+	//enquanto |b-a|/max{1,|xinicial| for maior que epsilon
+	//ou numéro de iterações for menor que 100 => continua
+    //
+    var erro = (math.abs(xp - xinicial))/(math.max(1,math.abs(xp)));
+    //
+    //
+    var texto_retorno = "<table class='table'><thead><tr><th>#</th><th>x</th><th>f'(x)</th><th>f''(x)</th></tr></thead>";
+    texto_retorno += '<tbody>';
+    //
+    //
+    while(erro > epsilon && k < 100 && resposta == ""){
+        //
+        xinicial = xp;
+        //
+        //calcula a derivida primeira e segunda do novo xinicial
+        //
+        p = pri_fx.eval({x:xinicial});
+        s = seg_fx.eval({x:xinicial});
+        //
+        if(k%2 === 0)
+            texto_retorno += '<tr bgcolor="#DCDCDC">';
+        else
+            texto_retorno += '<tr>';
+
+        texto_retorno += '<td>'+(k+1)+'</td>';
+        texto_retorno +='<td>'+xinicial.toFixed(4)+'</td>';
+        texto_retorno +='<td>'+p.toFixed(4)+'</td>';
+        texto_retorno +='<td>'+s.toFixed(4)+'</td>';
+        texto_retorno += '</tr>';
+        //
+        if( (math.abs(p) <= epsilon) || (math.abs(s) <= epsilon) ){
+            resposta += "<b>x = "+xinicial;
+            resposta += "<br>f(x) = " + f.eval({x:xinicial});
+            break;
+        }
+        //
+        xp = (xinicial - (p/s));
+        k = k + 1;
+        erro = (math.abs(xp - xinicial))/(math.max(1,math.abs(xp)));
+    }
+    //
+    if(resposta == ""){
+        resposta += "<b>x = " + p;
+        resposta += "<br><b>f(x) = "+f.eval({x:p});
+    }
+    //
+    texto_retorno += ('<tr bgcolor="#3CB371"><td align="center" colspan="8"><b>Resposta<b></td></tr>');
+
+    if(k%2 === 0)
+        texto_retorno += '<tr bgcolor="#DCDCDC">';
+    else
+        texto_retorno += '<tr>';
+
+    texto_retorno += '<td colspan="8" align="center">'+resposta+'</td>';
+    texto_retorno += '</tr>';
+    //
+    texto_retorno += '</tbody></table>';
+    //
+    retorno.append(texto_retorno);
 }
 
 function biseccao(fx,a,b,epsilon,retorno){
